@@ -1,0 +1,21 @@
+{
+  "name": "venus-salla-integration",
+  "version": "0.1.0",
+  "description": "A RESTful back-end login starter kit using Node.js, Express.js, and MongoDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "set NODE_ENV=dev && node app.js",
+    "dev": "nodemon app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ceferino Jose II",
+  "license": "MIT",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.6.0",
+    "nodemon": "^2.0.4"
+  }
+}
