@@ -1,9 +1,6 @@
-// const express = require("express");
 if (process.env.ACCESS_TOKEN != "production") require("dotenv").config();
 const https = require("https");
 const access_token = process.env.ACCESS_TOKEN;
-// const path = require("path");
-// if (process.env.ACCESS_TOKEN != "production") require("dotenv").config();
 
 getOrders();
 // await getOrders();
@@ -11,7 +8,6 @@ getOrders();
 // deleteOrders();
 
 async function getOrders() {
-  console.log(access_token);
   var options = {
     method: "GET",
     host: "venus-salla-integration.herokuapp.com",
@@ -23,11 +19,8 @@ async function getOrders() {
   };
 
   var res = await getApiCall(options);
-  // console.log(res);
-  console.log(res.length);
 
   for (var i = 0; i < res.length - 1; i++) {
-    // console.log(res[i]);
     var id = res[i].id;
     var reference = res[i].reference;
     var InvDate = res[i].InvDate;
