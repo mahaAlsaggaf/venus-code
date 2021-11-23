@@ -3,9 +3,7 @@ const https = require("https");
 const access_token = process.env.ACCESS_TOKEN;
 
 getOrders();
-// await getOrders();
-// await saveOrder();
-// deleteOrders();
+//saveOrder();
 
 async function getOrders() {
   var options = {
@@ -19,8 +17,8 @@ async function getOrders() {
   };
 
   var res = await getApiCall(options);
-
-  for (var i = 0; i < res.length - 1; i++) {
+  console.log(res);
+  for (var i = 0; i < res.length; i++) {
     var id = res[i].id;
     var reference = res[i].reference;
     var InvDate = res[i].InvDate;
@@ -42,8 +40,25 @@ async function getOrders() {
     var SalDiscPrc = res[i].SalDiscPrc;
     var TotalLine = res[i].TotalLine;
     var RegDate = res[i].RegDate;
+
+    // update SentToVenus to true
+    // update SentToVenusDate to now time
+    var options = {
+      method: "POST",
+      host: "venus-salla-integration.herokuapp.com",
+      path: `/api/orders/${id}`,
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "x-access-token": `${access_token}`,
+      },
+    };
+
+    var callback = await apiCall(options);
+    // console.log(callback);
   }
 }
+
+// will be filled by sultan
 async function saveOrder() {}
 
 async function deleteOrders() {
@@ -59,15 +74,13 @@ async function deleteOrders() {
   var res = await getApiCall(options);
   console.log(res);
 }
-async function getApiCall(options) {
+async function apiCall(options) {
   var str = "";
   var response = "failed";
   try {
     var response = new Promise((resolve, reject) => {
       https
         .request(options, function (res) {
-          //console.log('STATUS: ' + res.statusCode);
-          //console.log('HEADERS: ' + JSON.stringify(res.headers));
           res.setEncoding("utf8");
           res.on("data", function (chunk) {
             str += chunk;
@@ -76,13 +89,7 @@ async function getApiCall(options) {
             reject(err);
           });
           res.on("end", function () {
-            // console.log(str);
-            // console.log(str.indexOf("<"));
-            // if (str.indexOf("<") == -1) {
             str = JSON.parse(str);
-            // } else {
-            //   str = "failed this the else";
-            // }
             resolve(str);
           });
         })
